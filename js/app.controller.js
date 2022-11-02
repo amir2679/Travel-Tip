@@ -6,6 +6,10 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onSearchLocation = onSearchLocation
+window.onGo = onGo
+window.onRemoveLocation = onRemoveLocation
+
 
 function onInit() {
     mapService.initMap()
@@ -13,6 +17,9 @@ function onInit() {
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
+
+    locService.getLocs().then(renderLocations)
+
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -39,6 +46,7 @@ function onGetLocs() {
 function onGetUserPos() {
     getPosition()
         .then(pos => {
+            onPanTo(pos.coords)
             console.log('User position is:', pos.coords)
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
@@ -47,12 +55,42 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
-function onPanTo() {
+
+
+function onPanTo({ longitude, latitude }) {
     console.log('Panning the Map')
-    mapService.panTo(35.6895, 139.6917)
+    mapService.panTo(latitude, longitude)
 }
 
-function renderLocation() {
-    const {lat , lng} = getLocation()
-    document.querySelector('.lat-lng').innerText = lat + ' ' + lng
+
+function onSearchLocation(ev) {
+    ev.preventDefault()
+    const locationName = document.querySelector('.search-input').value
+    locService.searchLocation(locationName)
+        .then(mapService.panTo)
+    locService.getLocs().then(renderLocations)
+    // .catch(error => console.log(error))
+}
+
+function renderLocations(locs) {
+
+    var strHtmls = locs
+        .map(({ name, lat, lng }) => {
+            return `<tr>
+            <td>${name}</td>
+            <td> <button class="btn go" onclick="onGo('${lat}','${lng}')">Go</button></td>
+            <td><button class="btn delete" onclick="onRemoveLocation('${lat, lng}')">Delete</button></td>
+        </tr>`
+        })
+        .join('')
+    document.querySelector('.locations-table').innerHTML = strHtmls
+}
+
+function onGo(lat, lng) {
+    mapService.panTo(lat, lng)
+}
+
+function onRemoveLocation(lat, lng) {
+    locService.removeLocation(lat, lng)
+    locService.getLocs().then(renderLocations)
 }

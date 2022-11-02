@@ -11,9 +11,11 @@
 <body>
     <header class="main-header">
         <h1>TravelTip</h1>
-        <input type="search" class="search" placeholder="Enter Location" />
-        <button class="search-btn">Go!</button>
-        <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+        <form>
+        <input type="search" class="search-input" placeholder="Enter Location" />
+        <button class="search-btn" onclick="onSearchLocation(event)">Go!</button>
+        </form>
+        <button onclick="onGetUserPos()" class="btn-user-pos">My location</button>
     </header>
 
     <section class="current-location">
@@ -25,6 +27,7 @@
         <div class="locations">
             <p>Locations:
             <pre class="locs"></pre>
+            <table class="locations-table"></table>
             </p>
         </div>
 
@@ -41,6 +44,7 @@
 
     <p>You are at: <span class="user-pos"></span></p>
 
+    <script src="js/lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
 
