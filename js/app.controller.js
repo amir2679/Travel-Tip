@@ -6,6 +6,8 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onGo = onGo
+window.onRemoveLocation = onRemoveLocation
 
 function onInit() {
     mapService.initMap()
@@ -13,6 +15,7 @@ function onInit() {
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
+    locService.getLocs().then(renderLocations)
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -53,6 +56,29 @@ function onPanTo() {
 }
 
 function renderLocation() {
-    const {lat , lng} = getLocation()
+    const { lat, lng } = getLocation()
     document.querySelector('.lat-lng').innerText = lat + ' ' + lng
+}
+
+function renderLocations(locs) {
+
+    var strHtmls = locs
+        .map(location => {
+            return `<tr>
+            <td>${location.name}</td>
+            <td> <button class="btn go" onclick="onGo('${location.lat}','${location.lng}')">Go</button></td>
+            <td><button class="btn delete" onclick="onRemoveLocation('${location.name}')">Delete</button></td>
+        </tr>`
+        })
+        .join('')
+    document.querySelector('.locations-table').innerHTML = strHtmls
+}
+
+function onGo(lat, lng) {
+    mapService.panTo(lat, lng)
+}
+
+function onRemoveLocation(locName) {
+    locService.removeLocation(locName)
+    locService.getLocs().then(renderLocations)
 }
