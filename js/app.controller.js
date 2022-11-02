@@ -51,3 +51,8 @@ function onPanTo() {
     console.log('Panning the Map')
     mapService.panTo(35.6895, 139.6917)
 }
+
+function renderLocation() {
+    const {lat , lng} = getLocation()
+    document.querySelector('.lat-lng').innerText = lat + ' ' + lng
+}

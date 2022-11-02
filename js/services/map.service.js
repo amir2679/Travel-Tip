@@ -1,9 +1,11 @@
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    getClickedLocation
 }
 
+let gCurrLocation
 
 // Var that is used throughout this Module (not global)
 var gMap
@@ -24,12 +26,27 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 console.log('ev', ev);
                 const lat = ev.latLng.lat()
                 const lng = ev.latLng.lng()
-                console.log('lat, lng', lat, lng);
+                gCurrLocation = {
+                    lat,
+                    lng
+                }
                 initMap(lat, lng)
+                renderClickedLocation()
             })
         })
 
 }
+
+
+function getClickedLocation() {
+    return gCurrLocation
+}
+
+function renderClickedLocation() {
+    const { lat, lng } = getClickedLocation()
+    document.querySelector('.lat-lng').innerText = lat + ' , ' + lng
+}
+
 
 
 
