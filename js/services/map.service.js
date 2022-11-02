@@ -1,11 +1,10 @@
+import { locService } from './loc.service.js'
+
 export const mapService = {
     initMap,
     addMarker,
     panTo,
-    getClickedLocation
 }
-
-let gCurrLocation
 
 // Var that is used throughout this Module (not global)
 var gMap
@@ -23,22 +22,13 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('Map!', gMap)
 
             gMap.addListener('click', ev => {
-                console.log('ev', ev);
                 const lat = ev.latLng.lat()
                 const lng = ev.latLng.lng()
-                gCurrLocation = {
-                    lat,
-                    lng
-                }
-                gMap.setCenter(gCurrLocation)
+                locService.setCurrLocation(lat , lng)
+                locService.getCurrLocation().then(panTo)
             })
         })
 
-}
-
-
-function getClickedLocation() {
-    return gCurrLocation
 }
 
 function renderClickedLocation() {

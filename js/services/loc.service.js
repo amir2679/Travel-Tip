@@ -3,10 +3,13 @@ import { utilService } from './storage.service.js';
 export const locService = {
     getLocs,
     searchLocation,
-    removeLocation
+    removeLocation,
+    setCurrLocation,
+    getCurrLocation
 }
 
 let gLocs
+let gCurrLocation
 
 const STORAGE_KEY = 'locationsDB'
 _createLocs()
@@ -34,10 +37,6 @@ function getLocs() {
     })
 }
 
-function addLocation() {
-
-}
-
 function searchLocation(locaionName) {
     const location = gLocs.find(loc => loc.name === locaionName)
     if (location) {
@@ -57,18 +56,31 @@ function searchLocation(locaionName) {
             lat: data.results[0].geometry.location.lat,
             lng: data.results[0].geometry.location.lng
         }
-        console.log(gLocs)
         gLocs.push(searchedLoc)
-        console.log(gLocs)
         utilService.save(STORAGE_KEY, gLocs)
 
         return data.results[0].geometry.location
     })
+    .catch(console.log)
 }
 
-function removeLocation(lat ,lng) {
-    let idx = gLocs.findIndex((loc) => { loc.lat === lat &&  loc.lng === lng})
+function removeLocation(id) {
+    let idx = gLocs.findIndex((loc) => loc.id === id)
     gLocs.splice(idx, 1)
+    utilService.save(STORAGE_KEY, gLocs)
+}
+
+function setCurrLocation(lat , lng) {
+    gCurrLocation = {
+        lat,
+        lng
+    }
+}
+
+function getCurrLocation() {
+    return new Promise((resolve ,reject) =>{
+       gCurrLocation ? resolve(gCurrLocation) : reject(console.log('no location chosen'))
+    })
 }
 
 
