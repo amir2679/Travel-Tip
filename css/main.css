@@ -4,11 +4,11 @@ body {
 
 header {
     background-color: bisque;
-    margin-bottom: 20px;
+    margin-bottom: 21px;
 }
 
 .main-content {
-    gap: 20px;
+    gap: 21px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     /* grid-template-rows: 1fr; */
