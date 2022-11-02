@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(86, 229, 181);
+}
+
+header {
+    background-color: bisque;
+    margin-bottom: 20px;
+}
+
+.main-content {
+    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: 1fr; */
+}
+
+.map-container {
+    max-width: 40vw;
+    max-height: 50vh;
+}
+
+.locations {
+    max-width: 50vw;
+    max-height: 50vh;
+    background-color: rgb(112, 184, 184);
+}

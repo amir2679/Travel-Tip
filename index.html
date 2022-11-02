@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelTip</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <h1>TravelTip</h1>
+        <input type="search" class="search" placeholder="Enter Location" />
+        <button class="search-btn">Go!</button>
+        <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+    </header>
+
+    <section class="current-location">
+        <h2>Location:</h2>
+    </section>
+
+    <section class="main-content">
+
+        <div class="locations">
+            <p>Locations:
+            <pre class="locs"></pre>
+            </p>
+        </div>
+
+        <div class="map-container">
+            <div id="map" style="width: 100%; height: 400px;"></div>
+        </div>
+
+
+    </section>
+
+    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
+    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+
+    <p>You are at: <span class="user-pos"></span></p>
+
+    <script type="module" src="js/app.controller.js"></script>
+</body>
+
+</html>
